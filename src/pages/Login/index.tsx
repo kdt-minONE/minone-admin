@@ -4,6 +4,7 @@ import { Input } from "../../components/ui/input";
 import { Button } from "../../components/ui/button";
 import { useLogin } from "../../hooks/auth";
 import { useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ const Login = () => {
   });
   const [req, res] = useLogin();
   const navigate = useNavigate();
+  const { login } = useAuthStore();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -28,10 +30,21 @@ const Login = () => {
 
   useEffect(() => {
     if (res.data && res.called) {
+      const user = {
+        id: res.data.data.id,
+        email: res.data.data.email,
+        name: res.data.data.name,
+        role: res.data.data.role,
+        departmentId: res.data.data.departmentId,
+        departmentName: res.data.data.departmentName,
+      };
+
+      login(user, res.data.data.accessToken, res.data.data.refreshToken);
+
       alert("로그인 되었습니다.");
       navigate("/");
     }
-  }, [res, navigate]);
+  }, [res, navigate, login]);
 
   return (
     <div className="min-h-screen bg-minone-bg flex items-center justify-center px-4 py-8">
