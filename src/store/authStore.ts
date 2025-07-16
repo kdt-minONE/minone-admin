@@ -5,7 +5,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role?: "user" | "admin";
+  role?: "CITIZEN";
 }
 
 interface AuthState {
@@ -19,9 +19,6 @@ interface AuthState {
   login: (user: User, accessToken: string, refreshToken: string) => void;
   logout: () => void;
   updateUser: (user: Partial<User>) => void;
-
-  // Computed values
-  isAdmin: () => boolean;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -56,12 +53,6 @@ export const useAuthStore = create<AuthState>()(
         set((state) => ({
           user: state.user ? { ...state.user, ...updatedUser } : null,
         }));
-      },
-
-      // Computed values
-      isAdmin: () => {
-        const { user } = get();
-        return user?.role === "admin";
       },
     }),
     {
