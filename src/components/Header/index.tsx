@@ -23,7 +23,7 @@ export const Header = ({ className }: HeaderProps) => {
             민ONE
           </h1>
           <span className="text-gray-500 ml-1.5 flex items-center">
-            AI와 함께하는 스마트 민원
+            스마트 민원 관리자 페이지
           </span>
         </div>
         <div className="flex items-center space-x-2">
